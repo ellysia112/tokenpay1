@@ -16,6 +16,11 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_14.1.0.app
 
+      - name: Use GCC12
+        run: |
+          echo "CC=gcc-12" >> $CC 
+          echo "CXX=g++-12" >> $CXX 
+
       - name: Brew install base dependencies
         run: |
           # A workaround for "The `brew link` step did not complete successfully" error.
@@ -67,7 +72,7 @@ jobs:
         run: ./autogen.sh
 
       - name: configure
-        run: CC=gcc-12 CXX=g++-12 OPENSSL_CFLAGS="-I/usr/local/opt/openssl@1.1/include" OPENSSL_LIBS="-L/usr/local/opt/openssl@1.1/lib -lssl -lcrypto" ./configure --disable-tests --disable-dependency-tracking --disable-werror --with-gui --bindir=`pwd`/release/bin --libdir=`pwd`/release/lib
+        run: OPENSSL_CFLAGS="-I/usr/local/opt/openssl@1.1/include" OPENSSL_LIBS="-L/usr/local/opt/openssl@1.1/lib -lssl -lcrypto" ./configure --disable-tests --disable-dependency-tracking --disable-werror --with-gui --bindir=`pwd`/release/bin --libdir=`pwd`/release/lib
 
       - name: Setup tmate session
         if: always()
