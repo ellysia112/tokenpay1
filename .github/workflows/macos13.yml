@@ -26,19 +26,16 @@ jobs:
       - name: handle line endings
         run: git config --global core.autocrlf input
       
-      - name: git clone boost from official github
-        run: git clone https://github.com/boostorg/build.git && cd build && git fetch --tags && git checkout boost-1.65.1
-        
-      - name: bootstrap
-        run: cd build && git branch && ./bootstrap.sh
+
+
+      - name: Download Boost file
+        run: wget https://archives.boost.io/release/1.65.1/source/boost_1_65_1.tar.bz2
       
-      - name: b2
-        run: cd build && ./b2 install
-        
-      - name: Print Bootstrap Log if Failed
-        if: failure()
-        run: |
-          cat build/bootstrap.log
+      - name: Extract Boost file
+        run: tar -xjvf boost_1_65_1.tar.bz2
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       
       - name: Brew link dependencies
         run: brew link qt@5 berkeley-db@4
