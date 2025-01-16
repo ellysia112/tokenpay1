@@ -73,7 +73,7 @@ jobs:
                :
                [ opt --release : -Wl,-x -O3 -finline-functions ]
                [ opt --debug : -g -O0 -fno-inline -pg ]
-          EOF \
+          EOF
           patch -p0 < boost.patch
           
       - name: bootstrap
