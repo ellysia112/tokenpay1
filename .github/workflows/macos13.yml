@@ -16,29 +16,22 @@ jobs:
         
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_14.1.0.app
-
-      - name: Set Compiler
-        run: |
-         echo "CC=gcc-12" >> $GITHUB_ENV 
-         echo "CXX=g++-12" >> $GITHUB_ENV 
-
-        
       
-      - name: Download qt5
-        run: |
-          wget https://download.qt.io/new_archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.xz
-          tar xzvf qt-everywhere-opensource-src-5.7.1.tar.xz
-
-      - name: Setup tmate session
-        if: always()
-        uses: mxschmitt/action-tmate@v3
-
       - name: Brew install base dependencies
         run: |
           # A workaround for "The `brew link` step did not complete successfully" error.
           brew install --quiet python@3 || brew link --overwrite python@3
           brew install qt@5
           brew install --quiet automake berkeley-db@4 miniupnpc gperf qrencode librsvg && curl -L https://raw.githubusercontent.com/vergecurrency/protobuf261/master/protobuf261.rb > protobuf261.rb && brew install protobuf261.rb
+
+      - name: clone qt5webkit
+        run: |
+          git clone https://code.qt.io/qt/qtwebkit.git
+          tar xzvf qt-everywhere-opensource-src-5.7.1.tar.xz
+
+      - name: Setup tmate session
+        if: always()
+        uses: mxschmitt/action-tmate@v3
       
       - name: handle line endings
         run: git config --global core.autocrlf input
