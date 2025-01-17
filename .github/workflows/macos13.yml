@@ -69,9 +69,8 @@ jobs:
       - name: get qt5.5
         if: always()
         run: |
-        wget https://download.qt.io/new_archive/qt/5.5/5.5.0/qt-opensource-mac-x64-clang-5.5.0.dmg
-        hdiutil attach ./qt-opensource-mac-x64-clang-5.5.0.dmg
-
+          wget https://download.qt.io/new_archive/qt/5.5/5.5.0/qt-opensource-mac-x64-clang-5.5.0.dmg
+          hdiutil attach ./qt-opensource-mac-x64-clang-5.5.0.dmg
         
       - name: which clang/xcode
         run: clang --version
