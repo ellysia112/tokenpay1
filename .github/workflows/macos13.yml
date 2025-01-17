@@ -54,11 +54,8 @@ jobs:
 
       - name: Download qt5
         run: |
-          wget http://download.qt.io/new_archive/qt/5.7/5.7.1/submodules/qtbase-opensource-src-5.7.1.tar.gz
-          wget http://download.qt.io/new_archive/qt/5.7/5.7.1/submodules/qttranslations-opensource-src-5.7.1.tar.gz
-          wget http://download.qt.io/new_archive/qt/5.7/5.7.1/submodules/qttools-opensource-src-5.7.1.tar.gz
-          wget http://download.qt.io/community_releases/5.7/5.7.1/qtwebkit-opensource-src-5.7.1.tar.gz
-          tar xzvf qt*
+          wget https://download.qt.io/new_archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.xz
+          tar xzvf qt-everywhere-opensource-src-5.7.1.tar.xz
 
 
       
