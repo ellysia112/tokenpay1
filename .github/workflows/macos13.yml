@@ -52,6 +52,16 @@ jobs:
       - name: Extract Boost file
         run: tar -xjvf boost_1_65_1.tar.bz2
 
+      - name: Download qt5
+        run: |
+          wget http://download.qt.io/new_archive/qt/5.7/5.7.1/submodules/qtbase-opensource-src-5.7.1.tar.gz
+          wget http://download.qt.io/new_archive/qt/5.7/5.7.1/submodules/qttranslations-opensource-src-5.7.1.tar.gz
+          wget http://download.qt.io/new_archive/qt/5.7/5.7.1/submodules/qttools-opensource-src-5.7.1.tar.gz
+          wget http://download.qt.io/community_releases/5.7/5.7.1/qtwebkit-opensource-src-5.7.1.tar.gz
+          tar xzvf qt*
+
+
+      
       - name: Patch boost to use gcc-12
         run: |
           cd boost_1_65_1 && cp ../boost.patch . && patch -p0 < boost.patch
@@ -61,16 +71,13 @@ jobs:
       
       - name: b2
         run: cd boost_1_65_1 && sudo ./b2 install toolset=gcc-12
+
+      
       
       - name: Brew link dependencies
         if: always()
         run: brew link qt@5 berkeley-db@4
       
-      - name: get qt5.5
-        if: always()
-        run: |
-          wget https://download.qt.io/new_archive/qt/5.5/5.5.0/qt-opensource-mac-x64-clang-5.5.0.dmg
-          hdiutil attach ./qt-opensource-mac-x64-clang-5.5.0.dmg
         
       - name: which clang/xcode
         run: clang --version
