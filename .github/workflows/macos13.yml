@@ -73,13 +73,13 @@ jobs:
 
       - name: configure
         run: OPENSSL_CFLAGS="-I/usr/local/opt/openssl@1.1/include" OPENSSL_LIBS="-L/usr/local/opt/openssl@1.1/lib -lssl -lcrypto" ./configure --disable-tests --disable-dependency-tracking --disable-werror --with-gui --bindir=`pwd`/release/bin --libdir=`pwd`/release/lib
-
-      # - name: Setup tmate session
-      #   if: always()
-      #   uses: mxschmitt/action-tmate@v3
         
       - name: make
         run: make -j4
+      
+      - name: Setup tmate session
+        if: always()
+        uses: mxschmitt/action-tmate@v3
 
       - name: make .dmg
         run: make deploy
