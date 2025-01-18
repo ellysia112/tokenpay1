@@ -26,11 +26,31 @@ jobs:
           brew install conan@1
           echo "/usr/local/opt/conan@1/bin" >> $GITHUB_PATH
 
+     # First check if we have a cached version
+      - name: Check QtWebKit Cache
+        id: cache-check
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/opt/qt@5
+          key: ${{ runner.os }}-qtwebkit-5.212-${{ hashFiles('Tools/qt/conanfile.py') }}
+          restore-keys: |
+            ${{ runner.os }}-qtwebkit-5.212-
+
+      # Only build if no cache hit
       - name: clone qt5webkit
+        if: steps.cache-check.outputs.cache-hit != 'true'
         run: |
           git clone https://code.qt.io/qt/qtwebkit.git
           cd qtwebkit && git checkout 5.212 && sed -i '' 's|libjpeg-turbo/2.0.5@qtproject/stable|libjpeg-turbo/2.0.5|g' Tools/qt/conanfile.py
           Tools/qt/build-qtwebkit-conan.py --qt=/usr/local/opt/qt@5/ --install
+
+      # Save the cache if we built it
+      - name: Save QtWebKit Cache
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/opt/qt@5
+          key: ${{ runner.os }}-qtwebkit-5.212-${{ hashFiles('Tools/qt/conanfile.py') }}
 
       - name: set compiler flags
         run: |
