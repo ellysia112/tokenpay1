@@ -23,12 +23,12 @@ jobs:
           brew install --quiet python@3 || brew link --overwrite python@3
           brew install qt@5
           brew install --quiet automake berkeley-db@4 miniupnpc gperf qrencode librsvg && curl -L https://raw.githubusercontent.com/vergecurrency/protobuf261/master/protobuf261.rb > protobuf261.rb && brew install protobuf261.rb
+          brew install conan@1
+          echo "/usr/local/opt/conan@1/bin" >> $GITHUB_PATH
 
       - name: clone qt5webkit
         run: |
           git clone https://code.qt.io/qt/qtwebkit.git
-          brew install conan@1
-          echo "/usr/local/opt/conan@1/bin" >> $GITHUB_PATH
           cd qtwebkit && git checkout 5.212 && sed -i '' 's|libjpeg-turbo/2.0.5@qtproject/stable|libjpeg-turbo/2.0.5|g' Tools/qt/conanfile.py
           Tools/qt/build-qtwebkit-conan.py --qt=/usr/local/opt/qt@5/ --install
 
