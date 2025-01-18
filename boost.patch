@@ -5,7 +5,7 @@
 
      darwin)
 -    BOOST_JAM_CC=cc
-+    BOOST_JAM_CC=gcc-12
++    BOOST_JAM_CC="cc -Wno-error=implicit-function-declaration"
      ;;
 
      intel-darwin)
@@ -17,7 +17,7 @@
      : -L$(--python-lib[1]) -l$(--python-lib[2]) ;
  ## MacOSX Darwin, using GCC 2.9.x, 3.x
 -toolset darwin cc :  "-o " : -D
-+toolset darwin gcc-12 :  "-o " : -D
++toolset darwin cc :  "-Wno-error=implicit-function-declaration -o " : -D
      :
      [ opt --release : -Wl,-x -O3 -finline-functions ]
      [ opt --debug : -g -O0 -fno-inline -pg ]
