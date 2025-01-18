@@ -3,6 +3,13 @@ AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([foreign 1.13 subdir-objects -Wall -Werror -Wno-portability])
 AC_CONFIG_MACRO_DIRS([m4])
+
+AC_ARG_WITH([openssl-dir],
+  [AS_HELP_STRING([--with-openssl-dir=DIR], [Specify the directory where OpenSSL is installed])],
+  [openssl_dir=$withval],
+  [openssl_dir="/usr/local/ssl"])  # Default path
+AC_SUBST([openssl_dir])
+
 AM_PROG_AS
 AM_PROG_AR
 AC_PROG_MKDIR_P
@@ -195,7 +202,10 @@ AC_SUBST([MACOS_RPATH])
 AM_CONDITIONAL([ENABLE_GUI], [test "$enable_gui" = "yes"])
 
 AX_SUBDIRS_CONFIGURE([src/secp256k1], [[--disable-shared], [--with-pic], [--with-bignum=no], [--enable-module-recovery], [--enable-experimental], [--enable-module-ecdh]])
-AX_SUBDIRS_CONFIGURE([tor], [[--disable-unittests], [--disable-system-torrc], [--disable-systemd], [--disable-asciidoc], [--disable-shared], [--disable-gcc-hardening], [--disable-lzma], [--disable-zstd], [--disable-asciidoc], [--disable-jni], [--disable-system-torrc]])
+AX_SUBDIRS_CONFIGURE([tor], [[--disable-unittests], [--disable-system-torrc], [--disable-systemd], 
+  [--disable-asciidoc], [--disable-shared], [--disable-gcc-hardening], [--disable-lzma], 
+  [--disable-zstd], [--disable-asciidoc], [--disable-jni], [--disable-system-torrc], 
+  [--with-openssl-dir=${openssl_dir}]])
 
 AC_OUTPUT
 
