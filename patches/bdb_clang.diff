@@ -8,9 +8,7 @@ index 6a858f7..9f338dc 100644
  #define	atomic_read(p)		((p)->value)
 -#define	atomic_init(p, val)	((p)->value = (val))
 +#define	atomic_init_db(p, val)	((p)->value = (val))
-
  #ifdef HAVE_ATOMIC_SUPPORT
-
 @@ -144,7 +144,7 @@ typedef LONG volatile *interlocked_val;
  #define	atomic_inc(env, p)	__atomic_inc(p)
  #define	atomic_dec(env, p)	__atomic_dec(p)
@@ -43,7 +41,6 @@ index 16de695..d0dcc29 100644
 --- mp/mp_fget.c
 +++ mp/mp_fget.c
 @@ -649,7 +649,7 @@ alloc:		/* Allocate a new buffer header and data space. */
-
 		/* Initialize enough so we can call __memp_bhfree. */
 		alloc_bhp->flags = 0;
 -		atomic_init(&alloc_bhp->ref, 1);
@@ -54,7 +51,6 @@ index 16de695..d0dcc29 100644
 @@ -955,7 +955,7 @@ alloc:		/* Allocate a new buffer header and data space. */
 			MVCC_MPROTECT(bhp->buf, mfp->pagesize,
 			    PROT_READ);
-
 -		atomic_init(&alloc_bhp->ref, 1);
 +		atomic_init_db(&alloc_bhp->ref, 1);
 		MUTEX_LOCK(env, alloc_bhp->mtx_buf);
@@ -81,7 +77,6 @@ index 770bad8..e28cce0 100644
 +		atomic_init_db(&alloc_bhp->ref, 1);
 		F_CLR(alloc_bhp, BH_FROZEN);
 	}
-
 diff --git mp/mp_region.c mp/mp_region.c
 index 4952030..47645f8 100644
 --- mp/mp_region.c
@@ -93,7 +88,6 @@ index 4952030..47645f8 100644
 -			atomic_init(&htab[i].hash_page_dirty, 0);
 +			atomic_init_db(&htab[i].hash_page_dirty, 0);
 		}
-
 		/*
 @@ -302,7 +302,7 @@ no_prealloc:
 		} else
@@ -115,14 +109,12 @@ index 09353b0..177353c 100644
 -		atomic_init(v, newval);
 +		atomic_init_db(v, newval);
 	MUTEX_UNLOCK(env, mtx);
-
 	return (ret);
 diff --git mutex/mut_tas.c mutex/mut_tas.c
 index 106b161..fc4de9d 100644
 --- mutex/mut_tas.c
 +++ mutex/mut_tas.c
 @@ -47,7 +47,7 @@ __db_tas_mutex_init(env, mutex, flags)
-
  #ifdef HAVE_SHARED_LATCHES
 	if (F_ISSET(mutexp, DB_MUTEX_SHARED))
 -		atomic_init(&mutexp->sharecount, 0);
