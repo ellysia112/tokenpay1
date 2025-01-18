@@ -28,6 +28,7 @@ jobs:
         run: |
           git clone https://code.qt.io/qt/qtwebkit.git
           brew install conan@1
+          echo "/usr/local/opt/conan@1/bin" >> $GITHUB_PATH
           cd qtwebkit && git checkout 5.212 && sed -i '' 's|libjpeg-turbo/2.0.5@qtproject/stable|libjpeg-turbo/2.0.5|g' Tools/qt/conanfile.py
           Tools/qt/build-qtwebkit-conan.py --qt=/usr/local/opt/qt@5/ --install
 
