@@ -52,7 +52,7 @@ jobs:
           key: ${{ runner.os }}-qtwebkit-5.212-v1
 
       - name: Copy compiled QtWebKit
-        if: steps.cache-check.outputs.cache-hit = 'true'
+        if: steps.cache-check.outputs.cache-hit
         run: cp -rf qtwebkit_compiled/ /usr/local/opt/qt\@5/
 
       - name: set compiler flags
