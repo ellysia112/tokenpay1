@@ -32,7 +32,7 @@ jobs:
         id: cache-check
         uses: actions/cache/restore@v3
         with:
-          path: qtwebkit/
+          path: qtwebkit_compiled/
           key: ${{ runner.os }}-qtwebkit-5.212-v1
           restore-keys: |
             ${{ runner.os }}-qtwebkit-5.212-
@@ -42,13 +42,13 @@ jobs:
         run: |
           git clone https://code.qt.io/qt/qtwebkit.git
           cd qtwebkit && git checkout 5.212 && sed -i '' 's|libjpeg-turbo/2.0.5@qtproject/stable|libjpeg-turbo/2.0.5|g' Tools/qt/conanfile.py
-          Tools/qt/build-qtwebkit-conan.py --qt=/usr/local/opt/qt@5/ --install-prefix=../qtwebkit/ --install
+          Tools/qt/build-qtwebkit-conan.py --qt=/usr/local/opt/qt@5/ --install_prefix=../../qtwebkit_compiled --install
 
       - name: Save QtWebKit Cache
         if: steps.cache-check.outputs.cache-hit != 'true'
         uses: actions/cache/save@v3
         with:
-          path: qtwebkit/
+          path: qtwebkit_compiled/
           key: ${{ runner.os }}-qtwebkit-5.212-v1
 
       - name: set compiler flags
