@@ -101,7 +101,7 @@ jobs:
         run: ./autogen.sh
 
       - name: configure
-        run: PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig:/usr/local/opt/qt@5/lib/pkgconfig:$PKG_CONFIG_PATH" CPPFLAGS="-I/usr/local/opt/qt@5/lib/QtWebKit.framework/Headers" LDFLAGS="-F/usr/local/opt/qt@5/lib" BDB_CFLAGS="-I/usr/local/opt/berkeley-db@4/include" BDB_LIBS="-L/usr/local/opt/berkeley-db@4/lib -ldb_cxx-4.8" OPENSSL_CFLAGS="-I/usr/local/opt/openssl@1.1/include" OPENSSL_LIBS="-L/usr/local/opt/openssl@1.1/lib -lssl -lcrypto" ./configure --disable-tests --disable-dependency-tracking --disable-werror --enable-gui --with-qt5=/usr/local/opt/qt@5 --bindir=$(pwd)/release/bin --libdir=$(pwd)/release/lib --with-qt5webkit="/usr/local/opt/qt@5/"
+        run: PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig:/usr/local/opt/qt@5/lib/pkgconfig:$PKG_CONFIG_PATH" CPPFLAGS="-Iqtwebkit_compiled/lib/QtWebKit.framework/Headers" LDFLAGS="-F/usr/local/opt/qt@5/lib" BDB_CFLAGS="-I/usr/local/opt/berkeley-db@4/include" BDB_LIBS="-L/usr/local/opt/berkeley-db@4/lib -ldb_cxx-4.8" OPENSSL_CFLAGS="-I/usr/local/opt/openssl@1.1/include" OPENSSL_LIBS="-L/usr/local/opt/openssl@1.1/lib -lssl -lcrypto" ./configure --disable-tests --disable-dependency-tracking --disable-werror --enable-gui --with-qt5=/usr/local/opt/qt@5 --bindir=$(pwd)/release/bin --libdir=$(pwd)/release/lib --with-qt5webkit="qtwebkit_compiled/" --with-openssl-dir=/usr/local/opt/openssl@1.1
 
       - name: make
         run: make -j4
