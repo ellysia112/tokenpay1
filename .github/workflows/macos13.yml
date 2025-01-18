@@ -28,9 +28,8 @@ jobs:
         run: |
           git clone https://code.qt.io/qt/qtwebkit.git
           brew install conan@1
-          cd qtwebkit && git checkout 5.212
-          sed -i '' 's|libjpeg-turbo/2.0.5@qtproject/stable|libjpeg-turbo/2.0.5|g' Tools/qt/conanfile.py
-          cd qtwebkit && Tools/qt/build-qtwebkit-conan.py --qt=/usr/local/opt/qt@5/ --install
+          cd qtwebkit && git checkout 5.212 && sed -i '' 's|libjpeg-turbo/2.0.5@qtproject/stable|libjpeg-turbo/2.0.5|g' Tools/qt/conanfile.py
+          Tools/qt/build-qtwebkit-conan.py --qt=/usr/local/opt/qt@5/ --install
 
       - name: Setup tmate session
         if: always()
