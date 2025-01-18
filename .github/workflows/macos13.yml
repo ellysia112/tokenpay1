@@ -30,7 +30,7 @@ jobs:
 
       - name: Check QtWebKit Cache
         id: cache-check
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: /usr/local/opt/qt@5
           key: ${{ runner.os }}-qtwebkit-5.212-v1
@@ -46,7 +46,7 @@ jobs:
 
       - name: Save QtWebKit Cache
         if: steps.cache-check.outputs.cache-hit != 'true'
-        uses: actions/cache@v3
+        uses: actions/cache/save@v3
         with:
           path: /usr/local/opt/qt@5
           key: ${{ runner.os }}-qtwebkit-5.212-v1
